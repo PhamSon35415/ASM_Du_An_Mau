@@ -4,11 +4,16 @@
  */
 package view;
 
+import service.user_sv;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class form_dmk extends javax.swing.JFrame {
+
+    user_sv ser = new user_sv();
 
     /**
      * Creates new form form_dang_nhap
@@ -16,6 +21,42 @@ public class form_dmk extends javax.swing.JFrame {
     public form_dmk() {
         initComponents();
         this.setTitle("Đăng nhập");
+        this.setLocationRelativeTo(null);
+    }
+
+    public boolean check_trong() {
+        String tk = txttendangnhap.getText();
+        String mk = txtmkht.getText();
+        String mkmoi = txtmkmoi.getText();
+        String xnmk = txtxnmkmoi.getText();
+        if (tk.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Chua nhap tk!");
+            return false;
+        }
+        if (mk.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "chua nhap mk hien tai !");
+            return false;
+        }
+        if (mkmoi.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "chua nhap mk Moi !");
+            return false;
+        }
+        if (xnmk.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "chua xn mk moi !");
+            return false;
+        }
+
+        if (ser.check_tkmk(tk, mk)) {
+            if (mkmoi.equals(xnmk)) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(this, "Mk vs xac nhan MK ko giong nhau");
+                return false;
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Sai tk hoac mk");
+            return false;
+        }
     }
 
     /**
@@ -31,11 +72,11 @@ public class form_dmk extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         txttendangnhap = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        mkmoi = new javax.swing.JPasswordField();
+        txtmkmoi = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
-        mkht = new javax.swing.JPasswordField();
+        txtmkht = new javax.swing.JPasswordField();
         jLabel5 = new javax.swing.JLabel();
-        xnmkmoi = new javax.swing.JPasswordField();
+        txtxnmkmoi = new javax.swing.JPasswordField();
         btnhuybo = new javax.swing.JButton();
         btndongy = new javax.swing.JButton();
 
@@ -84,13 +125,13 @@ public class form_dmk extends javax.swing.JFrame {
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(mkmoi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                                    .addComponent(txtmkmoi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
                                     .addComponent(txttendangnhap, javax.swing.GroupLayout.Alignment.LEADING))
                                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGap(18, 18, 18)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(mkht)
-                                .addComponent(xnmkmoi, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                                .addComponent(txtmkht)
+                                .addComponent(txtxnmkmoi, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
                                 .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
@@ -106,15 +147,15 @@ public class form_dmk extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txttendangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(mkht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtmkht, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
                     .addComponent(jLabel5))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(mkmoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(xnmkmoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtmkmoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtxnmkmoi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(29, 29, 29)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnhuybo)
@@ -126,7 +167,18 @@ public class form_dmk extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btndongyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btndongyActionPerformed
-        // TODO add your handling code here:
+        String tk = txttendangnhap.getText();
+        String mkmoi = txtmkmoi.getText();
+        if (check_trong()) {
+            if (JOptionPane.showConfirmDialog(this, "ban co chac muon doi hay ko ?") == 0) {
+                int x = ser.doimk(tk, mkmoi);
+                if (x != 0) {
+                    JOptionPane.showMessageDialog(this, "Doi mk thanh cong !");
+                } else {
+                    JOptionPane.showMessageDialog(this, "DMK that bai");
+                }
+            }
+        }
     }//GEN-LAST:event_btndongyActionPerformed
 
     /**
@@ -173,9 +225,9 @@ public class form_dmk extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JPasswordField mkht;
-    private javax.swing.JPasswordField mkmoi;
+    private javax.swing.JPasswordField txtmkht;
+    private javax.swing.JPasswordField txtmkmoi;
     private javax.swing.JTextField txttendangnhap;
-    private javax.swing.JPasswordField xnmkmoi;
+    private javax.swing.JPasswordField txtxnmkmoi;
     // End of variables declaration//GEN-END:variables
 }
