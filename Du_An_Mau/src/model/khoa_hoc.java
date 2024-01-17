@@ -9,7 +9,7 @@ package model;
  * @author Admin
  */
 public class khoa_hoc {
-    private String makh;
+    private int makh;
     private String macd;
     private double hocphi;
     private int thoiluong;
@@ -23,8 +23,18 @@ public class khoa_hoc {
         };
     }
 
-    public khoa_hoc(String makh, String macd, double hocphi, int thoiluong, String ngaykg, String ghichu, String manv, String ngaytao) {
+    public khoa_hoc(int makh, String macd, double hocphi, int thoiluong, String ngaykg, String ghichu, String manv, String ngaytao) {
         this.makh = makh;
+        this.macd = macd;
+        this.hocphi = hocphi;
+        this.thoiluong = thoiluong;
+        this.ngaykg = ngaykg;
+        this.ghichu = ghichu;
+        this.manv = manv;
+        this.ngaytao = ngaytao;
+    }
+
+    public khoa_hoc(String macd, double hocphi, int thoiluong, String ngaykg, String ghichu, String manv, String ngaytao) {
         this.macd = macd;
         this.hocphi = hocphi;
         this.thoiluong = thoiluong;
@@ -37,11 +47,11 @@ public class khoa_hoc {
     public khoa_hoc() {
     }
 
-    public String getMakh() {
+    public int getMakh() {
         return makh;
     }
 
-    public void setMakh(String makh) {
+    public void setMakh(int makh) {
         this.makh = makh;
     }
 

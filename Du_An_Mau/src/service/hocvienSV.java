@@ -3,33 +3,29 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package service;
-
 import java.util.*;
 import java.sql.*;
-import model.chuyen_de;
-
+import model.hoc_vien;
 /**
  *
  * @author Admin
  */
-public class chuyendenSV {
-
-    List<chuyen_de> list;
+public class hocvienSV {
+    List<hoc_vien> list;
     private Connection conn = null;
     private PreparedStatement ps = null;
     private ResultSet rs = null;
     private String sql = null;
 
-    public List<chuyen_de> getallcd() {
+    public List<hoc_vien> getallhv() {
         list=new ArrayList<>();
-        sql = "select MaCd, TenCd, HocPhi, ThoiLuong, Hinh, MoTa from ChuyenDe";
+        sql = "select MaHv, MaKh, MaNh, Diem from HocVien";
         try {
             conn = DBConnect.getConnection();
             ps = conn.prepareStatement(sql);
             rs = ps.executeQuery();
             while (rs.next()) {
-                chuyen_de ue = new chuyen_de(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4),
-                         rs.getString(5), rs.getString(6));
+                hoc_vien ue = new hoc_vien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
                 list.add(ue);
             }
             return list;
@@ -38,60 +34,55 @@ public class chuyendenSV {
         }
     }
 
-    public int addCD(chuyen_de cd) {
-        sql = "insert into ChuyenDe (MaCd, TenCd, HocPhi, ThoiLuong, Hinh, MoTa) values (?,?,?,?,?,?)";
+    public int addHv(hoc_vien hv) {
+        sql = "insert into HocVien (MaKh, MaNh, Diem) values (?,?,?)";
         try {
             conn = DBConnect.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setObject(1, cd.getMacd());
-            ps.setObject(2, cd.getTencd());
-            ps.setObject(3, cd.getHocphi());
-            ps.setObject(4, cd.getThoiluong());
-            ps.setObject(5, cd.getHinh());
-            ps.setObject(6, cd.getMota());
+            ps.setObject(1, hv.getMakh());
+            ps.setObject(2, hv.getManh());
+            ps.setDouble(3, hv.getDiem());
             return ps.executeUpdate();
         } catch (SQLException e) {
             return 0;
         }
     }
 
-    public int update(String macd, chuyen_de cd) {
-        sql = "update ChuyenDe set TenCd=?, HocPhi=?, ThoiLuong=?, Hinh=?, MoTa=? where MaCd like ?";
+    public int update(String mahv, hoc_vien hv) {
+        sql = "update HocVien set MaKh=?, MaNh=?, Diem=? where MaHv like ?";
         try {
             conn = DBConnect.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setObject(1, cd.getTencd());
-            ps.setObject(2, cd.getHocphi());
-            ps.setObject(3, cd.getThoiluong());
-            ps.setObject(4, cd.getHinh());
-            ps.setObject(5, cd.getMota());
-            ps.setObject(6, macd);
+            ps.setObject(1, hv.getMakh());
+            ps.setObject(2, hv.getManh());
+            ps.setDouble(3, hv.getDiem());
+            ps.setObject(4, mahv);
             return ps.executeUpdate();
         } catch (SQLException e) {
             return 0;
         }
     }
-    public int deleteCd(String macd){
-        sql="delete ChuyenDe where MaCd like ?";
+    public int deleteCd(String mahv){
+        sql="delete HocVien where MaHv like ?";
         try {
             conn = DBConnect.getConnection();
             ps = conn.prepareStatement(sql);
-            ps.setString(1, macd);
+            ps.setString(1, mahv);
             return ps.executeUpdate();
         } catch (SQLException e) {
             return 0;
         }
     }
-    public List<chuyen_de> timkiem() {
+    public List<hoc_vien> timkiem(String mahv) {
         list=new ArrayList<>();
-        sql = "select MaCd, TenCd, HocPhi, ThoiLuong, Hinh, MoTa from ChuyenDe where MaCd like ?";
+        sql = "select MaHv, MaKh, MaNh, Diem from HocVien where MaHv like ?";
         try {
             conn = DBConnect.getConnection();
             ps = conn.prepareStatement(sql);
+            ps.setString(1, mahv);
             rs = ps.executeQuery();
             while (rs.next()) {
-                chuyen_de ue = new chuyen_de(rs.getString(1), rs.getString(2), rs.getDouble(3), rs.getInt(4),
-                         rs.getString(5), rs.getString(6));
+                hoc_vien ue = new hoc_vien(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getDouble(4));
                 list.add(ue);
             }
             return list;
